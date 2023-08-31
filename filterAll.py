@@ -15,6 +15,9 @@ for input_file in input_files:
     # Read the input CSV file using pandas
     df = pd.read_csv(input_path)
 
+    # Remove extra spacing within headlines
+    df['headline_text'] = df['headline_text'].str.replace(r'\s+', ' ', regex=True).str.strip()
+
     # Convert publish_date to datetime
     df['publish_date'] = pd.to_datetime(df['publish_date'], format='%Y%m%d')
 
