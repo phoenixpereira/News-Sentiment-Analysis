@@ -18,6 +18,9 @@ for input_file in input_files:
     # Remove extra spacing within headlines
     df['headline_text'] = df['headline_text'].str.replace(r'\s+', ' ', regex=True).str.strip()
 
+    # Truncate headlines to 500 characters
+    df['headline_text'] = df['headline_text'].str.slice(stop=500)
+
     # Convert publish_date to datetime
     df['publish_date'] = pd.to_datetime(df['publish_date'], format='%Y%m%d')
 
