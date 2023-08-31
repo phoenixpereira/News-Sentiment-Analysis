@@ -22,8 +22,11 @@ for input_file in input_files:
     df['publish_date'] = pd.to_datetime(df['publish_date'], format='%Y%m%d')
 
     # Filter conditions
-    filtered_df = df[(df['headline_text'].str.split().apply(lambda x: len(x) if isinstance(
-        x, list) else 0) > 3) & (~df['headline_text'].str.contains('abc', na=False))]
+    start_date = pd.Timestamp('2007-01-01')
+    end_date = pd.Timestamp('2021-12-31')
+    filtered_df = df[(df['publish_date'] >= start_date) & (df['publish_date'] <= end_date) &
+                     (df['headline_text'].str.split().apply(lambda x: len(x) if isinstance(
+                         x, list) else 0) > 3) & (~df['headline_text'].str.contains('abc', na=False))]
     filtered_df = filtered_df.groupby(['publish_date']).head(10)
 
     # Write the filtered dataframe to a new CSV file
