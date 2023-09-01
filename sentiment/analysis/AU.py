@@ -14,7 +14,7 @@ headlines_df = pd.concat(headlines_data, ignore_index=True)
 
 # Using a specific model for sentiment analysis
 specific_model = pipeline(
-    model="siebert/sentiment-roberta-large-english", device="mps")  # Use device 0 for GPU
+    model="siebert/sentiment-roberta-large-english", device=0)  # Use device 0 for GPU
 
 total_headlines = len(headlines_df)
 
