@@ -41,13 +41,13 @@ colors = {
 }
 
 # Define the figure and axes with a larger figure size
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(12, 6))
 
 # Define the bar width
 width = 0.8
 
 # Define the y positions for each bar
-y_positions = list(range(5))
+y_positions = list(range(len(countries)))
 
 # Plot each emotion for each country initially
 stacked_heights = [0] * len(countries)
@@ -64,16 +64,15 @@ for emotion in colors:
 current_interval = df.index.unique()[0]
 ax.set_title(f'Headline Emotion Analysis - {current_interval}')
 
-# Set the x-axis label
-ax.set_xlabel('Emotion Count')
-
 # Invert the y-axis to have the top country at the top
 ax.invert_yaxis()
 
-# Initialize y-axis labels and legend
+# Initialize labels and legend
 ax.set_yticks(y_positions)
-y_labels = ax.set_yticklabels(countries.values())
+y_labels = ax.set_yticklabels([countries[country] for country in countries.keys()])
 legend = ax.legend(handles=legend_artists, loc='center left', bbox_to_anchor=(1, 0.5))
+x_axis = ax.set_xlabel('Emotion Count')
+y_axis = ax.set_ylabel('Country')
 
 # Add a slider to change the selected time for the data
 slider_ax = fig.add_axes([0.15, 0.001, 0.7, 0.03])  # Adjust the vertical position here
@@ -85,9 +84,49 @@ play_pause_button = Button(play_pause_ax, 'Play')
 
 # Flag to control animation
 animation_playing = False
+current_index = 0  # Track the current index of the slider
+
+# Function to update the plot when the slider is moved
+def update(val):
+    global current_index
+    index = int(slider.val)
+    
+    if index != current_index:
+        current_index = index
+        ax.clear()
+        stacked_heights = [0] * len(countries)
+        legend_artists = []
+
+        for emotion in colors:
+            for i, country in enumerate(countries):
+                data = df[df['Country'] == countries[country]][emotion]
+                ax.barh(y_positions[i], data.iloc[index], height=width, color=colors[emotion], left=stacked_heights[i], label=emotion)
+                stacked_heights[i] += data.iloc[index]
+            legend_artists.append(mpatches.Patch(color=colors[emotion], label=emotion))
+
+        current_interval = df.index.unique()[index]
+        ax.set_title(f'Headline Emotion Analysis - {current_interval}')
+        # Set the x-axis label
+        ax.set_xlabel('Emotion Count')
+
+        # Set the y-axis label
+        ax.set_ylabel('Country')
+        
+        # Restore y-axis labels and legend
+        ax.set_yticks(y_positions)
+        y_labels = ax.set_yticklabels([countries[country] for country in countries.keys()])
+        legend = ax.legend(handles=legend_artists, loc='center left', bbox_to_anchor=(1, 0.5))
+        x_axis = ax.set_xlabel('Emotion Count')
+        y_axis = ax.set_ylabel('Country') 
+
+        if not animation_playing:
+            slider.set_val(index)
+
+slider.on_changed(update)
 
 # Animation function
 def animate(i):
+    global animation_playing
     if not animation_playing:
         return
     
@@ -108,8 +147,10 @@ def animate(i):
     
     # Restore y-axis labels and legend
     ax.set_yticks(y_positions)
-    y_labels = ax.set_yticklabels(countries.values())
+    y_labels = ax.set_yticklabels([countries[country] for country in countries.keys()])
     legend = ax.legend(handles=legend_artists, loc='center left', bbox_to_anchor=(1, 0.5))
+    x_axis = ax.set_xlabel('Emotion Count')
+    y_axis = ax.set_ylabel('Country') 
 
     slider.set_val(index)
 
