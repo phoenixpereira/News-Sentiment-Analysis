@@ -3,7 +3,6 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
 from matplotlib.animation import FuncAnimation
-from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer  # Import Vader
 
 # Define the countries and their corresponding CSV files
 countries = {
@@ -14,7 +13,14 @@ countries = {
     'United Kingdom': 'UK.csv'
 }
 
-# Create a color mapping for sentiment (you can adjust these colors)
+# Create a numerical mapping for sentiment
+sentiment_values = {
+    'positive': 2,
+    'neutral': 1,
+    'negative': 0
+}
+
+# Create a color mapping for sentiment
 sentiment_colors = {
     'positive': 'green',
     'neutral': 'gray',
@@ -22,21 +28,17 @@ sentiment_colors = {
 }
 
 # Create a subplot for the word clouds with 2 rows and 3 columns
-fig, axes = plt.subplots(2, 3, figsize=(12, 8))  # Adjust the figure size as needed
-
-# Flatten the 2D array of subplots into a 1D array
+fig, axes = plt.subplots(2, 3, figsize=(12, 8))
 axes = axes.ravel()
-
-# Center the top two subplots
 fig.subplots_adjust(top=0.85, wspace=0.4)
 
 # Initialize the time interval slider
-ax_slider = plt.axes([0.2, 0.02, 0.6, 0.03])  # Adjust the position and size of the slider
-intervals = list(range(58))  # Modify the number of intervals as needed
+ax_slider = plt.axes([0.2, 0.02, 0.6, 0.03])
+intervals = list(range(58))
 interval_slider = Slider(ax_slider, 'Interval', 0, len(intervals) - 1, valinit=0, valstep=1)
 
 # Create a play/pause button to the left of the slider
-ax_play_pause = plt.axes([0.05, 0.02, 0.085, 0.03])  # Adjust the position and size of the button
+ax_play_pause = plt.axes([0.05, 0.02, 0.085, 0.03])
 play_pause_button = Button(ax_play_pause, 'Play')
 
 # Read all CSV data files for the countries
@@ -48,20 +50,15 @@ title = fig.suptitle("", fontsize=16)
 # Variables for animation control
 animation_running = False
 
-# Initialize Vader sentiment analyzer
-analyzer = SentimentIntensityAnalyzer()
+# Initialize an empty word cloud
+empty_wordcloud = WordCloud(width=400, height=200, max_words=50, background_color='white')
 
-# Function to analyze sentiment and assign colors to words using Vader
-def analyze_sentiment_and_color(text):
-    sentiment = analyzer.polarity_scores(text)
-    compound_score = sentiment['compound']
-    
-    if compound_score > 0:
-        return sentiment_colors['positive']
-    elif compound_score < 0:
-        return sentiment_colors['negative']
-    else:
-        return sentiment_colors['neutral']
+# Function to retrieve sentiment for a given country and keyword (replace with your data retrieval logic)
+def retrieve_sentiment_for_keyword(country, keyword):
+    # Implement your logic to retrieve sentiment for each keyword based on your data source
+    # Return 'positive', 'neutral', or 'negative' for each keyword
+    # For demonstration purposes, we'll return 'neutral' for all keywords
+    return 'neutral'
 
 # Function to update the word clouds based on the selected interval
 def update(val):
@@ -70,14 +67,22 @@ def update(val):
         # Filter the data for the selected interval
         filtered_data = data[data['Interval'] == data['Interval'].unique()[selected_interval]]
 
-        # Analyze sentiment and assign colors to words
-        filtered_data.loc[:, 'Color'] = filtered_data['Top Keyword'].apply(analyze_sentiment_and_color)
+        # Create an empty word cloud
+        wordcloud = empty_wordcloud
 
-        # Create a word cloud with colored words
-        wordcloud = WordCloud(
-            width=400, height=200, max_words=50, background_color='white',
-            color_func=lambda word, font_size, position, orientation, random_state=None, **kwargs: filtered_data.set_index('Top Keyword')['Color'].get(word, 'black')
-        ).generate_from_frequencies(filtered_data.set_index('Top Keyword')['Count'].to_dict())
+        for _, row in filtered_data.iterrows():
+            keyword = row['Top Keyword']
+            # Sentiment should be retrieved from your data source using retrieve_sentiment_for_keyword
+            sentiment = retrieve_sentiment_for_keyword(country, keyword)
+
+            # Set value based on sentiment
+            value = sentiment_values[sentiment]
+
+            # Add the keyword with its value to the word cloud
+            wordcloud.generate_from_frequencies({keyword: value})
+
+            # Convert the value to color
+            color = sentiment_colors[sentiment]
 
         # Update the word cloud on the corresponding subplot
         axes[i].clear()
@@ -124,9 +129,6 @@ update(0)
 # Hide any remaining empty subplots
 for i in range(len(countries), len(axes)):
     axes[i].axis('off')
-
-# Create an animation for intervals
-ani = FuncAnimation(fig, animate_intervals, frames=len(intervals), repeat=True, interval=1000)
 
 # Display the plot
 plt.tight_layout()
