@@ -67,14 +67,24 @@ def update(val):
         # Filter the data for the selected interval
         filtered_data = data[data['Interval'] == data['Interval'].unique()[selected_interval]]
 
-        # Create an empty word cloud
-        wordcloud = empty_wordcloud
+        # Initialize empty lists to accumulate keywords and sentiments
+        keywords = []
+        sentiments = []
 
         for _, row in filtered_data.iterrows():
             keyword = row['Top Keyword']
             # Sentiment should be retrieved from your data source using retrieve_sentiment_for_keyword
             sentiment = retrieve_sentiment_for_keyword(country, keyword)
 
+            # Append keyword and sentiment to the lists
+            keywords.append(keyword)
+            sentiments.append(sentiment)
+
+        # Create an empty word cloud
+        wordcloud = empty_wordcloud
+
+        # Generate word cloud based on accumulated keywords and sentiments
+        for keyword, sentiment in zip(keywords, sentiments):
             # Set value based on sentiment
             value = sentiment_values[sentiment]
 

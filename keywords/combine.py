@@ -20,5 +20,8 @@ for country, csv_file in countries.items():
     # Merge sentiments data with the country's CSV data using 'Top Keyword' as the key
     merged_df = pd.merge(country_df, sentiments_df, on='Top Keyword', how='inner')
 
-    # Save the merged data back to the country's CSV file
-    merged_df.to_csv(f'keywords/results/{csv_file}', index=False)
+    # Add the 'sentiment' column to the country's CSV data
+    country_df['sentiment'] = merged_df['sentiment']
+
+    # Save the modified data back to the country's CSV file
+    country_df.to_csv(f'keywords/results/{csv_file}', index=False, columns=['Interval', 'Top Keyword', 'Count', 'sentiment'])
