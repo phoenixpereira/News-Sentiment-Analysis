@@ -1,7 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider
+from matplotlib.widgets import Slider, Button
 import matplotlib.patches as mpatches
+from matplotlib.animation import FuncAnimation
 
 # Define the countries and their full names
 countries = {
@@ -78,8 +79,19 @@ legend = ax.legend(handles=legend_artists, loc='center left', bbox_to_anchor=(1,
 slider_ax = fig.add_axes([0.15, 0.001, 0.7, 0.03])  # Adjust the vertical position here
 slider = Slider(slider_ax, 'Time', 0, len(df.index.unique()) - 1, valinit=0, valstep=1)
 
-def update(val):
-    index = int(slider.val)
+# Play/pause button
+play_pause_ax = fig.add_axes([0.01, 0.05, 0.1, 0.04])  # Adjust the horizontal and vertical position here
+play_pause_button = Button(play_pause_ax, 'Play')
+
+# Flag to control animation
+animation_playing = False
+
+# Animation function
+def animate(i):
+    if not animation_playing:
+        return
+    
+    index = i % len(df.index.unique())
     ax.clear()
     stacked_heights = [0] * len(countries)
     legend_artists = []
@@ -99,9 +111,23 @@ def update(val):
     y_labels = ax.set_yticklabels(countries.values())
     legend = ax.legend(handles=legend_artists, loc='center left', bbox_to_anchor=(1, 0.5))
 
-    plt.draw()
+    slider.set_val(index)
 
-slider.on_changed(update)
+# Play/pause button click event
+def play_pause(event):
+    global animation_playing
+    if play_pause_button.label.get_text() == 'Play':
+        play_pause_button.label.set_text('Pause')
+        animation_playing = True
+        ani.event_source.start()
+    else:
+        play_pause_button.label.set_text('Play')
+        animation_playing = False
+        ani.event_source.stop()
+
+play_pause_button.on_clicked(play_pause)
+
+ani = FuncAnimation(fig, animate, frames=len(df.index.unique()) * 2, interval=500, repeat=False)
 
 # Set the slider labels to the interval values (e.g., 2007Q1, 2007Q2, etc.)
 slider_labels = df.index.unique().tolist()

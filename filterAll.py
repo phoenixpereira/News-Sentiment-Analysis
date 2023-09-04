@@ -6,7 +6,7 @@ output_directory = 'filteredDatasets'
 os.makedirs(output_directory, exist_ok=True)
 
 # List of input files
-input_files = ['australia.csv', 'india.csv', 'ireland.csv', 'UK.csv', 'US.csv']
+input_files = ['AU.csv', 'IN.csv', 'IE.csv', 'UK.csv', 'US.csv']
 
 for input_file in input_files:
     input_path = os.path.join('rawDatasets', input_file)
@@ -26,7 +26,7 @@ for input_file in input_files:
 
     # Filter conditions
     start_date = pd.Timestamp('2007-01-01')
-    end_date = pd.Timestamp('2021-12-31')
+    end_date = pd.Timestamp('2021-06-30')
     filtered_df = df[(df['publish_date'] >= start_date) & (df['publish_date'] <= end_date) &
                      (df['headline_text'].str.split().apply(lambda x: len(x) if isinstance(
                          x, list) else 0) > 3) & (~df['headline_text'].str.contains('abc', na=False))]

@@ -1,34 +1,27 @@
 import pandas as pd
-import os
+from datetime import datetime
 
-# Create the output directory if it doesn't exist
-output_directory = 'filteredDatasets'
-os.makedirs(output_directory, exist_ok=True)
+# Read the input CSV file into a pandas DataFrame
+df = pd.read_csv('rawDatasets/UKAndUS.csv', encoding='utf-8')
 
-# List of input files
-input_files = ['australia.csv', 'india.csv', 'ireland.csv', 'UK.csv', 'US.csv']
+# Filter rows for 'Daily Mail' and 'New York Times' sources
+uk_df = df[df['Publication'] == 'Daily Mail'].copy()  # Create a copy of the filtered DataFrame
+us_df = df[df['Publication'] == 'New York Times'].copy()  # Create a copy of the filtered DataFrame
 
-for input_file in input_files:
-    input_path = os.path.join('rawDatasets', input_file)
-    output_path = os.path.join(output_directory, input_file)
+# Convert the 'Date' column to a datetime format and format it as 'YYYYMMDD' for the copied DataFrames
+uk_df['publish_date'] = pd.to_datetime(uk_df['Date'], format='%Y%m%d').dt.strftime('%Y%m%d')
+us_df['publish_date'] = pd.to_datetime(us_df['Date'], format='%Y%m%d').dt.strftime('%Y%m%d')
 
-    # Read the input CSV file using pandas
-    df = pd.read_csv(input_path)
+# Rename the 'Headline' column to 'headline_text'
+uk_df.rename(columns={'Headline': 'headline_text'}, inplace=True)
+us_df.rename(columns={'Headline': 'headline_text'}, inplace=True)
 
-    # Convert publish_date to datetime
-    df['publish_date'] = pd.to_datetime(df['publish_date'], format='%Y%m%d')
+# Select the 'publish_date' and 'headline_text' columns
+uk_df = uk_df[['publish_date', 'headline_text']]
+us_df = us_df[['publish_date', 'headline_text']]
 
-    # Filter conditions
-    filtered_df = df[
-        (df['publish_date'] >= '2007-01-01') &
-        (df['publish_date'] <= '2021-12-31') &
-        (df['headline_text'].str.split().apply(lambda x: len(x) if isinstance(x, list) else 0) > 3) &
-        (~df['headline_text'].str.contains('abc', na=False))
-    ]
-    filtered_df = filtered_df.groupby(['publish_date']).head(10)
+# Save the filtered DataFrames to CSV files
+uk_df.to_csv('rawDatasets/UK.csv', encoding='utf-8', index=False)
+us_df.to_csv('rawDatasets/US.csv', encoding='utf-8', index=False)
 
-    # Write the filtered dataframe to a new CSV file
-    filtered_df[['publish_date', 'headline_text']].to_csv(
-        output_path, index=False)
-
-print("Filtering and outputting complete.")
+print("Filtering and splitting complete.")
