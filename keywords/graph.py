@@ -3,6 +3,7 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
 from matplotlib.animation import FuncAnimation
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer  # Import Vader
 
 # Define the countries and their corresponding CSV files
 countries = {
@@ -11,6 +12,13 @@ countries = {
     'India': 'IN.csv',
     'United States': 'US.csv',
     'United Kingdom': 'UK.csv'
+}
+
+# Create a color mapping for sentiment (you can adjust these colors)
+sentiment_colors = {
+    'positive': 'green',
+    'neutral': 'gray',
+    'negative': 'red'
 }
 
 # Create a subplot for the word clouds with 2 rows and 3 columns
@@ -40,6 +48,21 @@ title = fig.suptitle("", fontsize=16)
 # Variables for animation control
 animation_running = False
 
+# Initialize Vader sentiment analyzer
+analyzer = SentimentIntensityAnalyzer()
+
+# Function to analyze sentiment and assign colors to words using Vader
+def analyze_sentiment_and_color(text):
+    sentiment = analyzer.polarity_scores(text)
+    compound_score = sentiment['compound']
+    
+    if compound_score > 0:
+        return sentiment_colors['positive']
+    elif compound_score < 0:
+        return sentiment_colors['negative']
+    else:
+        return sentiment_colors['neutral']
+
 # Function to update the word clouds based on the selected interval
 def update(val):
     selected_interval = int(interval_slider.val)
@@ -47,9 +70,14 @@ def update(val):
         # Filter the data for the selected interval
         filtered_data = data[data['Interval'] == data['Interval'].unique()[selected_interval]]
 
-        # Create a word cloud
-        wordcloud = WordCloud(width=400, height=200, max_words=50, background_color='white').generate_from_frequencies(
-            filtered_data.set_index('Top Keyword')['Count'].to_dict())
+        # Analyze sentiment and assign colors to words
+        filtered_data.loc[:, 'Color'] = filtered_data['Top Keyword'].apply(analyze_sentiment_and_color)
+
+        # Create a word cloud with colored words
+        wordcloud = WordCloud(
+            width=400, height=200, max_words=50, background_color='white',
+            color_func=lambda word, font_size, position, orientation, random_state=None, **kwargs: filtered_data.set_index('Top Keyword')['Color'].get(word, 'black')
+        ).generate_from_frequencies(filtered_data.set_index('Top Keyword')['Count'].to_dict())
 
         # Update the word cloud on the corresponding subplot
         axes[i].clear()
