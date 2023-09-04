@@ -1,7 +1,8 @@
 import pandas as pd
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider
+from matplotlib.widgets import Slider, Button
+from matplotlib.animation import FuncAnimation
 
 # Define the countries and their corresponding CSV files
 countries = {
@@ -23,14 +24,21 @@ fig.subplots_adjust(top=0.85, wspace=0.4)
 
 # Initialize the time interval slider
 ax_slider = plt.axes([0.2, 0.02, 0.6, 0.03])  # Adjust the position and size of the slider
-intervals = list(range(60))  # Modify the number of intervals as needed
-interval_slider = Slider(ax_slider, 'Intervals', 0, len(intervals) - 1, valinit=0, valstep=1)
+intervals = list(range(58))  # Modify the number of intervals as needed
+interval_slider = Slider(ax_slider, 'Interval', 0, len(intervals) - 1, valinit=0, valstep=1)
+
+# Create a play/pause button to the left of the slider
+ax_play_pause = plt.axes([0.05, 0.02, 0.085, 0.03])  # Adjust the position and size of the button
+play_pause_button = Button(ax_play_pause, 'Play')
 
 # Read all CSV data files for the countries
 all_data = {country: pd.read_csv(f'keywords/results/{csv_file}') for country, csv_file in countries.items()}
 
 # Create a title for the top keywords and current interval
 title = fig.suptitle("", fontsize=16)
+
+# Variables for animation control
+animation_running = False
 
 # Function to update the word clouds based on the selected interval
 def update(val):
@@ -56,6 +64,29 @@ def update(val):
     plt.tight_layout()
     fig.canvas.draw_idle()
 
+# Function to handle play/pause button click event
+def play_pause(event):
+    global animation_running
+    if play_pause_button.label.get_text() == 'Play':
+        play_pause_button.label.set_text('Pause')
+        animation_running = True
+        ani.event_source.start()
+    else:
+        play_pause_button.label.set_text('Play')
+        animation_running = False
+        ani.event_source.stop()
+
+play_pause_button.on_clicked(play_pause)
+
+# Function to animate intervals
+def animate_intervals(i):
+    if not animation_running:
+        return
+    current_interval = int(interval_slider.val)
+    next_interval = (current_interval + 1) % len(intervals)
+    interval_slider.set_val(next_interval)
+    update(next_interval)
+
 # Attach the update function to the slider
 interval_slider.on_changed(update)
 
@@ -65,6 +96,9 @@ update(0)
 # Hide any remaining empty subplots
 for i in range(len(countries), len(axes)):
     axes[i].axis('off')
+
+# Create an animation for intervals
+ani = FuncAnimation(fig, animate_intervals, frames=len(intervals), repeat=True, interval=1000)
 
 # Display the plot
 plt.tight_layout()
