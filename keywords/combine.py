@@ -23,8 +23,8 @@ for country, csv_file in countries.items():
     # Fill missing sentiment values with 'neutral'
     merged_df['sentiment'].fillna('neutral', inplace=True)
 
-    # Drop duplicate rows keeping only the first occurrence
-    merged_df = merged_df.drop_duplicates(subset=['Top Keyword'], keep='first')
+    # Drop duplicate rows keeping only the first occurrence within the same 'Interval'
+    merged_df = merged_df.drop_duplicates(subset=['Interval', 'Top Keyword'], keep='first')
 
     # Save the modified data back to the country's CSV file
     merged_df.to_csv(f'keywords/results/{csv_file}', index=False, columns=['Interval', 'Top Keyword', 'Count', 'sentiment'])
