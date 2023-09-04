@@ -16,12 +16,15 @@ countries = {
 for country, csv_file in countries.items():
     # Load the country's CSV data
     country_df = pd.read_csv(f'keywords/results/{csv_file}')
+    
+    # Merge sentiments data with the country's CSV data using 'Top Keyword' and 'Interval' as the keys
+    merged_df = country_df.merge(sentiments_df, on=['Top Keyword'], how='left')
+    
+    # Fill missing sentiment values with 'neutral'
+    merged_df['sentiment'].fillna('neutral', inplace=True)
 
-    # Merge sentiments data with the country's CSV data using 'Top Keyword' as the key
-    merged_df = pd.merge(country_df, sentiments_df, on='Top Keyword', how='inner')
-
-    # Add the 'sentiment' column to the country's CSV data
-    country_df['sentiment'] = merged_df['sentiment']
+    # Drop duplicate rows keeping only the first occurrence
+    merged_df = merged_df.drop_duplicates(subset=['Top Keyword'], keep='first')
 
     # Save the modified data back to the country's CSV file
-    country_df.to_csv(f'keywords/results/{csv_file}', index=False, columns=['Interval', 'Top Keyword', 'Count', 'sentiment'])
+    merged_df.to_csv(f'keywords/results/{csv_file}', index=False, columns=['Interval', 'Top Keyword', 'Count', 'sentiment'])
