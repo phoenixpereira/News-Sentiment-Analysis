@@ -54,7 +54,6 @@ for emotion in valid_emotions:
 
 for sentiment_month, emotion_counts in emotions.items():
     combined_data['interval'].append(sentiment_month)
-    combined_data['publish_date'].append(sentiment_month)
 
     for emotion in valid_emotions:
         combined_data[emotion].append(emotion_counts[emotion])
@@ -65,7 +64,6 @@ combined_data['interval'] = combined_data['interval'].dt.to_period('Q')
 
 # Group and aggregate by 3-month intervals
 grouped_data = combined_data.groupby('interval', as_index=False).agg({
-    'publish_date': 'min',
     'joy': 'sum',
     'others': 'sum',
     'surprise': 'sum',
