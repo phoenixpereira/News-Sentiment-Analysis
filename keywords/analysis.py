@@ -5,7 +5,7 @@ from collections import defaultdict
 from datetime import datetime
 
 # Read the data from the CSV file
-data = pd.read_csv('filteredDatasets/AU2.csv')
+data = pd.read_csv('filteredDatasets/AU.csv')
 df = pd.DataFrame(data, columns=['publish_date', 'headline_text'])
 
 # Extract the publish dates and headlines from the DataFrame
@@ -37,9 +37,6 @@ def extract_keywords(batch_headlines):
 # Determine the time periods (e.g., quarterly intervals)
 start_date = datetime.strptime(min(publish_dates), '%Y-%m-%d')
 end_date = datetime.strptime(max(publish_dates), '%Y-%m-%d')
-quarter_length = 3  # Number of months in a quarter
-current_start_date = start_date
-current_end_date = start_date + pd.DateOffset(months=quarter_length)
 
 # Initialize a list to store keyword data for the CSV file
 csv_data = []
@@ -52,39 +49,30 @@ with tqdm(total=total_headlines, desc="Extracting Keywords", unit="headline", dy
 
         # Check if the headline is within the current time period (quarter)
         publish_date = datetime.strptime(batch_date, '%Y-%m-%d')
-        if publish_date >= current_start_date and publish_date < current_end_date:
-            # Extract keywords from the headline and update counts for the current time period
-            keywords_list = extract_keywords([batch_headline])
-            for keyword in keywords_list:
-                keywords[current_start_date][keyword] += 1
 
-        # Move to the next quarter if necessary
-        if publish_date >= current_end_date:
-            current_start_date = current_end_date
-            current_end_date += pd.DateOffset(months=quarter_length)
+        # Determine the quarter for the current headline
+        quarter = f'{publish_date.year}Q{int((publish_date.month - 1) / 3) + 1}'
 
-            # Sort and extract the top 100 keywords for the current time period
-            top_keywords = sorted(keywords[current_start_date], key=keywords[current_start_date].get, reverse=True)[:100]
-            
-            # Add keyword data to the CSV data list
-            for keyword in top_keywords:
-                csv_data.append({
-                    'Interval': f'{current_start_date.strftime("%Y")}Q{current_start_date.quarter}',
-                    'Top Keyword': keyword,
-                    'Count': keywords[current_start_date][keyword]
-                })
+        # Extract keywords from the headline and update counts for the current time period (quarter)
+        keywords_list = extract_keywords([batch_headline])
+        for keyword in keywords_list:
+            keywords[quarter][keyword] += 1
 
         pbar.update(1)
 
-# Sort and extract the top 25 keywords for the last time period
-top_keywords = sorted(keywords[current_start_date], key=keywords[current_start_date].get, reverse=True)[:25]
-# Add keyword data to the CSV data list for the last time period
-for keyword in top_keywords:
-    csv_data.append({
-        'Interval': f'{current_start_date.strftime("%Y")}Q{current_start_date.quarter}',
-        'Top Keyword': keyword,
-        'Count': keywords[current_start_date][keyword]
-    })
+# Create intervals based on the available data
+available_quarters = sorted(keywords.keys())
+for quarter in available_quarters:
+    # Sort and extract the top 50 keywords for the current time period (quarter)
+    top_keywords = sorted(keywords[quarter], key=keywords[quarter].get, reverse=True)[:50]
+    
+    # Add keyword data to the CSV data list
+    for keyword in top_keywords:
+        csv_data.append({
+            'Interval': quarter,
+            'Top Keyword': keyword,
+            'Count': keywords[quarter][keyword]
+        })
 
 # Create a DataFrame from the CSV data
 csv_df = pd.DataFrame(csv_data)
