@@ -5,6 +5,7 @@ from collections import defaultdict
 from datetime import timedelta
 
 # Read CSV file
+# Change for AU, IE, IN, GB, US
 filtered_path = 'filteredDatasets/australia.csv'
 data = pd.read_csv(filtered_path)
 headlines_data = []
@@ -64,4 +65,5 @@ grouped_data = combined_data.groupby('interval', as_index=False).agg({
 })
 
 # Save the combined sentiment data to CSV
+# Change for AU, IE, IN, GB, US
 grouped_data.to_csv('results/AU.csv', index=False)
