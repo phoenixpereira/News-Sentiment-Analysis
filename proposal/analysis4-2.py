@@ -22,7 +22,7 @@ valid_emotions = ['joy', 'surprise',
                   'sadness', 'fear', 'anger', 'disgust', 'neutral']
 
 # Add tqdm progress bar
-with tqdm(total=total_keywords, desc="Analyzing Emotions", unit="keyword", dynamic_ncols=True) as pbar:
+with tqdm(total=total_keywords, desc="Analysing Emotions", unit="keyword", dynamic_ncols=True) as pbar:
     for keyword in top_keywords_list:
         results = specific_model(keyword)
 

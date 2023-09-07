@@ -67,7 +67,7 @@ ax.set_title(f'Headline Emotion Analysis - {current_interval}')
 # Invert the y-axis to have the top country at the top
 ax.invert_yaxis()
 
-# Initialize labels and legend
+# Initialise labels and legend
 ax.set_yticks(y_positions)
 y_labels = ax.set_yticklabels([countries[country] for country in countries.keys()])
 legend = ax.legend(handles=legend_artists, loc='center left', bbox_to_anchor=(1, 0.5))

@@ -38,7 +38,7 @@ def extract_keywords(batch_headlines):
 start_date = datetime.strptime(min(publish_dates), '%Y-%m-%d')
 end_date = datetime.strptime(max(publish_dates), '%Y-%m-%d')
 
-# Initialize a list to store keyword data for the CSV file
+# Initialise a list to store keyword data for the CSV file
 csv_data = []
 
 # Add tqdm progress bar

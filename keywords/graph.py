@@ -30,7 +30,7 @@ axes = axes.ravel()
 # Center the top two subplots
 fig.subplots_adjust(top=0.85, wspace=0.4)
 
-# Initialize the time interval slider
+# Initialise the time interval slider
 ax_slider = plt.axes([0.2, 0.02, 0.6, 0.03])  # Adjust the position and size of the slider
 intervals = list(range(58))  # Modify the number of intervals as needed
 interval_slider = Slider(ax_slider, 'Interval', 0, len(intervals) - 1, valinit=0, valstep=1)
@@ -48,7 +48,7 @@ title = fig.suptitle("", fontsize=16)
 # Variables for animation control
 animation_running = False
 
-# Initialize Vader sentiment analyzer
+# Initialise Vader sentiment analyser
 analyzer = SentimentIntensityAnalyzer()
 
 # Function to analyze sentiment and assign colors to words using Vader
@@ -70,7 +70,7 @@ def update(val):
         # Filter the data for the selected interval
         filtered_data = data[data['Interval'] == data['Interval'].unique()[selected_interval]]
 
-        # Analyze sentiment and assign colors to words
+        # Analyse sentiment and assign colors to words
         filtered_data_copy = filtered_data.copy()
         filtered_data_copy['Color'] = filtered_data['Top Keyword'].apply(analyze_sentiment_and_color)
 
@@ -118,7 +118,7 @@ def animate_intervals(i):
 # Attach the update function to the slider
 interval_slider.on_changed(update)
 
-# Initialize the word clouds with the first interval
+# Initialise the word clouds with the first interval
 update(0)
 
 # Hide any remaining empty subplots

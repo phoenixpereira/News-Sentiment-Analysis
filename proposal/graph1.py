@@ -29,7 +29,7 @@ except FileNotFoundError:
     sentiments = {'POSITIVE': 0, 'NEGATIVE': 0}
 
     # Add tqdm progress bar
-    with tqdm(total=total_headlines, desc="Analyzing Sentiments", unit="headline", dynamic_ncols=True) as pbar:
+    with tqdm(total=total_headlines, desc="Analysing Sentiments", unit="headline", dynamic_ncols=True) as pbar:
         for batch_start in range(0, total_headlines, batch_size):
             batch_headlines = headlines[batch_start:batch_start + batch_size]
             results = specific_model(batch_headlines)

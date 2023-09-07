@@ -22,7 +22,7 @@ total_headlines = len(headlines)
 sentiments = defaultdict(lambda: defaultdict(int))
 
 # Add tqdm progress bar
-with tqdm(total=total_headlines, desc="Analyzing Sentiments", unit="headline", dynamic_ncols=True) as pbar:
+with tqdm(total=total_headlines, desc="Analysing Sentiments", unit="headline", dynamic_ncols=True) as pbar:
     for batch_start in range(0, total_headlines):
         batch_headline = headlines[batch_start]
         sentiment_date = publish_dates[batch_start]

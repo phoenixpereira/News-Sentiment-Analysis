@@ -38,7 +38,7 @@ def process_batch(batch_headlines):
 
 
 # Add tqdm progress bar
-with tqdm(total=total_headlines, desc="Analyzing Topics", unit="headline", dynamic_ncols=True) as pbar:
+with tqdm(total=total_headlines, desc="Analysing Topics", unit="headline", dynamic_ncols=True) as pbar:
     with concurrent.futures.ThreadPoolExecutor() as executor:
         for batch_start in range(0, total_headlines, batch_size):
             batch_headlines = headlines[batch_start:batch_start + batch_size]

@@ -16,7 +16,7 @@ countries = {
 specific_model = pipeline(
     model="cardiffnlp/twitter-roberta-base-sentiment-latest", device=0)  # Use device 0 for GPU
 
-# Initialize a list to store sentiment data
+# Initialise a list to store sentiment data
 sentiment_data = []
 
 # Loop through each country's CSV file
