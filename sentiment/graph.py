@@ -7,8 +7,8 @@ country_mapping = {
     'AU': 'Australia',
     'IE': 'Ireland',
     'IN': 'India',
-    'UK': 'UK',
-    'US': 'US'
+    'GB': 'England',
+    'US': 'United States'
 }
 
 # Read sentiment data from CSV files
@@ -46,6 +46,7 @@ for country_name, country_data in combined_data.groupby('Country'):
             country_data['Sentiment'], label=country_name)
 
 ax.set_ylabel('Sentiment Score')
+ax.set_xlabel('Year')
 ax.set_title('News Headline Sentiment Over Time')
 ax.set_ylim(-100, 100)  # Set y-axis limits to -100 to 100
 

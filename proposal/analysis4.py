@@ -13,7 +13,7 @@ headlines = df['headline_text'].tolist()
 
 # Using a specific model for keyword extraction
 specific_model = pipeline(
-    model="yanekyuk/bert-keyword-extractor", device="mps")  # Use PyTorch, GPU
+    model="yanekyuk/bert-keyword-extractor", device=0)  # Use GPU
 
 batch_size = 64  # Increased batch size for faster processing
 total_headlines = len(headlines)

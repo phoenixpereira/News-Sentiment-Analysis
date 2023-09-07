@@ -14,7 +14,7 @@ headlines = df['headline_text'].tolist()
 
 # Using a specific model for emotion analysis
 specific_model = pipeline(
-    model="finiteautomata/bertweet-base-emotion-analysis", device="mps")  # Use device "mps"
+    model="finiteautomata/bertweet-base-emotion-analysis", device=0)  # Use GPU
 
 batch_size = 64  # Increased batch size for faster processing
 total_headlines = len(headlines)

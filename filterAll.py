@@ -6,7 +6,7 @@ output_directory = 'filteredDatasets'
 os.makedirs(output_directory, exist_ok=True)
 
 # List of input files
-input_files = ['AU.csv', 'IN.csv', 'IE.csv', 'UK.csv', 'US.csv']
+input_files = ['AU.csv', 'IN.csv', 'IE.csv', 'GB.csv', 'US.csv']
 
 for input_file in input_files:
     input_path = os.path.join('rawDatasets', input_file)

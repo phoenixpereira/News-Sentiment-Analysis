@@ -5,6 +5,7 @@ from collections import defaultdict
 from datetime import timedelta
 
 # Read the data from the CSV file
+# Change for AU, IE, IN, GB, US
 filtered_path = 'filteredDatasets/AU.csv'
 data = pd.read_csv(filtered_path)
 df = pd.DataFrame(data, columns=['publish_date', 'headline_text'])
@@ -15,7 +16,7 @@ headlines = df['headline_text'].tolist()
 
 # Using a specific model for emotion analysis
 specific_model = pipeline(
-    model="finiteautomata/bertweet-base-emotion-analysis", device="mps") # Use device 0 for GPU
+    model="finiteautomata/bertweet-base-emotion-analysis", device=0) # Use device 0 for GPU
 
 batch_size = 64  # Increased batch size for faster processing
 total_headlines = len(headlines)
@@ -74,4 +75,5 @@ grouped_data = combined_data.groupby('interval', as_index=False).agg({
 })
 
 # Save the combined emotion data to CSV
+# Change for AU, IE, IN, GB, US
 grouped_data.to_csv('results/AU.csv', index=False)

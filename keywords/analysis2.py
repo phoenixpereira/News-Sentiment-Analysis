@@ -9,12 +9,12 @@ countries = {
     'Ireland': 'IE.csv',
     'India': 'IN.csv',
     'United States': 'US.csv',
-    'United Kingdom': 'UK.csv'
+    'England': 'GB.csv'
 }
 
 # Using a specific model for sentiment analysis
 specific_model = pipeline(
-    model="cardiffnlp/twitter-roberta-base-sentiment-latest", device="mps")  # Use device 0 for GPU
+    model="cardiffnlp/twitter-roberta-base-sentiment-latest", device=0)  # Use device 0 for GPU
 
 # Initialize a list to store sentiment data
 sentiment_data = []

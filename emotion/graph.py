@@ -9,7 +9,7 @@ countries = {
     'AU': 'Australia',
     'IE': 'Ireland',
     'IN': 'India',
-    'UK': 'United Kingdom',
+    'GB': 'England',
     'US': 'United States'
 }
 
@@ -156,10 +156,11 @@ def animate(i):
 
 # Play/pause button click event
 def play_pause(event):
-    global animation_playing
+    global animation_playing, current_index
     if play_pause_button.label.get_text() == 'Play':
         play_pause_button.label.set_text('Pause')
         animation_playing = True
+        current_index = 0
         ani.event_source.start()
     else:
         play_pause_button.label.set_text('Play')
@@ -168,7 +169,7 @@ def play_pause(event):
 
 play_pause_button.on_clicked(play_pause)
 
-ani = FuncAnimation(fig, animate, frames=len(df.index.unique()) * 2, interval=500, repeat=False)
+ani = FuncAnimation(fig, animate, frames=len(df.index.unique()) * 2, interval=1000, repeat=True)
 
 # Set the slider labels to the interval values (e.g., 2007Q1, 2007Q2, etc.)
 slider_labels = df.index.unique().tolist()

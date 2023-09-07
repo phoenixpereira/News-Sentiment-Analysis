@@ -9,7 +9,7 @@ countries = {
     'Ireland': 'IE.csv',
     'India': 'IN.csv',
     'United States': 'US.csv',
-    'United Kingdom': 'UK.csv'
+    'England': 'GB.csv'
 }
 
 # Iterate through each country's CSV file

@@ -11,7 +11,7 @@ countries = {
     'Ireland': 'IE.csv',
     'India': 'IN.csv',
     'United States': 'US.csv',
-    'United Kingdom': 'UK.csv'
+    'England': 'GB.csv'
 }
 
 # Create a color mapping for sentiment (you can adjust these colors)
@@ -22,7 +22,7 @@ sentiment_colors = {
 }
 
 # Create a subplot for the word clouds with 2 rows and 3 columns
-fig, axes = plt.subplots(2, 3, figsize=(12, 8))  # Adjust the figure size as needed
+fig, axes = plt.subplots(2, 3, figsize=(10, 6))  # Adjust the figure size as needed
 
 # Flatten the 2D array of subplots into a 1D array
 axes = axes.ravel()
@@ -36,7 +36,7 @@ intervals = list(range(58))  # Modify the number of intervals as needed
 interval_slider = Slider(ax_slider, 'Interval', 0, len(intervals) - 1, valinit=0, valstep=1)
 
 # Create a play/pause button to the left of the slider
-ax_play_pause = plt.axes([0.05, 0.02, 0.085, 0.03])  # Adjust the position and size of the button
+ax_play_pause = plt.axes([0.05, 0.02, 0.075, 0.03])  # Adjust the position and size of the button
 play_pause_button = Button(ax_play_pause, 'Play')
 
 # Read all CSV data files for the countries

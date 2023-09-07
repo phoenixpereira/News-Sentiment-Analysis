@@ -13,7 +13,7 @@ total_keywords = len(top_keywords_list)
 
 # Using a specific model for emotion analysis
 specific_model = pipeline(
-    model="j-hartmann/emotion-english-distilroberta-base", device="mps")  # Use PyTorch, GPU
+    model="j-hartmann/emotion-english-distilroberta-base", device=0)  # Use PyTorch, GPU
 
 emotions_data = []
 

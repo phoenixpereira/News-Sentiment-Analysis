@@ -14,7 +14,7 @@ publish_dates = df['publish_date'].tolist()
 
 # Using a specific model for keyword extraction
 specific_model = pipeline(
-    model="yanekyuk/bert-keyword-extractor", device="mps")  # Use GPU for faster processing
+    model="yanekyuk/bert-keyword-extractor", device=0)  # Use GPU for faster processing
 
 total_headlines = len(headlines)
 keywords = defaultdict(lambda: defaultdict(int))
