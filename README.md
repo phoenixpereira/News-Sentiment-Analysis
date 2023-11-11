@@ -1,26 +1,20 @@
 # News Sentiment Evolution
 
-## Overview
-This repository explores the evolution of sentiment in news headlines over time, utilising Python for data manipulation, sentiment analysis, emotion analysis, and keyword analysis.
+This project explores the evolution of sentiment in news headlines over time, utilising Python for data manipulation, sentiment analysis, emotion analysis, and keyword analysis.
 
 ## Data Sources
 
 The dataset comprises of news headlines spanning from 2007 to 2021, sourced from Kaggle:
 
-- **Australia: ABC News**
-  - [ABC News Dataset](https://www.kaggle.com/datasets/therohk/million-headlines)
+- **Australia:** [ABC News](https://www.kaggle.com/datasets/therohk/million-headlines)
 
-- **Ireland: The Irish Times**
-  - [The Irish Times Dataset](https://www.kaggle.com/datasets/therohk/ireland-historical-news)
+- **Ireland:** [The Irish Times](https://www.kaggle.com/datasets/therohk/ireland-historical-news)
 
-- **India: Times of India**
-  - [Times of India Dataset](https://www.kaggle.com/datasets/therohk/india-headlines-news-dataset)
+- **India:** [Times of India](https://www.kaggle.com/datasets/therohk/india-headlines-news-dataset)
 
-- **England: Daily Mail**
-  - [Daily Mail Dataset](https://www.kaggle.com/datasets/jordankrishnayah/45m-headlines-from-2007-2022-10-largest-sites)
+- **England:** [Daily Mail](https://www.kaggle.com/datasets/jordankrishnayah/45m-headlines-from-2007-2022-10-largest-sites)
 
-- **United States: The New York Times**
-  - [The New York Times Dataset](https://www.kaggle.com/datasets/jordankrishnayah/45m-headlines-from-2007-2022-10-largest-sites)
+- **United States:** [The New York Times](https://www.kaggle.com/datasets/jordankrishnayah/45m-headlines-from-2007-2022-10-largest-sites)
 
 ## Usage
 
