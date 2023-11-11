@@ -1,16 +1,51 @@
-# GC-Project-1
+# News Sentiment Evolution
 
-## Step 1 - Filtering Data
-Run filterGBandUS.py and then filterAll.py, outputs filtered data to "/rawDatasets"
+## Overview
+This repository explores the evolution of sentiment in news headlines over time, utilising Python for data manipulation, sentiment analysis, emotion analysis, and keyword analysis.
 
-## Step 2 - Sentiment Analysis
-Run sentiment/analysis.py and then sentiment/graph.py
+## Data Sources
 
-## Step 3 - Emotion Analysis
-Run emotion/analysis.py and then emotion/graph.py
+The dataset comprises of news headlines spanning from 2007 to 2021, sourced from Kaggle:
 
-## Step 4 - Keywords Analysis
-Run keywords/analysis.py, keywords/analysis2.py, keywords/combine.py and then keywords/graph.py
+- **Australia: ABC News**
+  - [ABC News Dataset](https://www.kaggle.com/datasets/therohk/million-headlines)
+
+- **Ireland: The Irish Times**
+  - [The Irish Times Dataset](https://www.kaggle.com/datasets/therohk/ireland-historical-news)
+
+- **India: Times of India**
+  - [Times of India Dataset](https://www.kaggle.com/datasets/therohk/india-headlines-news-dataset)
+
+- **England: Daily Mail**
+  - [Daily Mail Dataset](https://www.kaggle.com/datasets/jordankrishnayah/45m-headlines-from-2007-2022-10-largest-sites)
+
+- **United States: The New York Times**
+  - [The New York Times Dataset](https://www.kaggle.com/datasets/jordankrishnayah/45m-headlines-from-2007-2022-10-largest-sites)
+
+## Usage
+
+### Step 1 - Filtering Data
+1. Run `python filterGBandUS.py` to filter data specific to the United Kingdom and the United States.
+2. Run `python filterAll.py` to filter data in the whole dataset.
+
+### Step 2 - Sentiment Analysis
+1. Run `python sentiment/analysis.py` for sentiment analysis.
+2. Run `python sentiment/graph.py` to generate visualisations based on the sentiment data.
+   
+![Sentiment](https://github.com/phoenixpereira/News-Sentiment-Evolution/assets/47909638/3ed505e1-894a-487b-b5f0-eef71352130d)
+
+### Step 3 - Emotion Analysis
+1. Run `python emotion/analysis.py` for emotion analysis.
+2. Run `python emotion/graph.py` to visualise the emotion analysis results.
+   
+![Emotion](https://github.com/phoenixpereira/News-Sentiment-Evolution/assets/47909638/fb7dc308-c08f-4b3b-8e32-cedb4f0a95d5)
+
+### Step 4 - Keywords Analysis
+1. Run `python keywords/analysis.py`, `python keywords/analysis2.py`, and `python keywords/combine.py` for keyword analysis.
+2. Run `python keywords/graph.py` to visualise the keyword analysis results.
+   
+![Keywords](https://github.com/phoenixpereira/News-Sentiment-Evolution/assets/47909638/12ff9f94-9f35-4bd6-86a8-18a557233d98)
+
 
 
 
