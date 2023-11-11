@@ -26,21 +26,16 @@ The dataset comprises of news headlines spanning from 2007 to 2021, sourced from
 1. Run `python sentiment/analysis.py` for sentiment analysis.
 2. Run `python sentiment/graph.py` to generate visualisations based on the sentiment data.
    
-![Sentiment](https://github.com/phoenixpereira/News-Sentiment-Evolution/assets/47909638/3ed505e1-894a-487b-b5f0-eef71352130d)
+![Sentiment](https://github.com/phoenixpereira/News-Sentiment-Evolution/assets/47909638/85fd44fa-1299-438c-a19d-bf4da9c1e235)
 
 ### Step 3 - Emotion Analysis
 1. Run `python emotion/analysis.py` for emotion analysis.
 2. Run `python emotion/graph.py` to visualise the emotion analysis results.
    
-![Emotion](https://github.com/phoenixpereira/News-Sentiment-Evolution/assets/47909638/fb7dc308-c08f-4b3b-8e32-cedb4f0a95d5)
+![Emotion](https://github.com/phoenixpereira/News-Sentiment-Evolution/assets/47909638/b787d5c4-2b2e-493b-9c06-1190b85b5890)
 
 ### Step 4 - Keywords Analysis
 1. Run `python keywords/analysis.py`, `python keywords/analysis2.py`, and `python keywords/combine.py` for keyword analysis.
 2. Run `python keywords/graph.py` to visualise the keyword analysis results.
    
-![Keywords](https://github.com/phoenixpereira/News-Sentiment-Evolution/assets/47909638/12ff9f94-9f35-4bd6-86a8-18a557233d98)
-
-
-
-
-
+![Keywords](https://github.com/phoenixpereira/News-Sentiment-Evolution/assets/47909638/9a84487a-2880-4df1-89d6-0e33bf8ce959)
