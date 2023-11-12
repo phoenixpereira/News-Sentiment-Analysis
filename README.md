@@ -1,6 +1,6 @@
-# News Sentiment Evolution
+# News Sentiment Analysis
 
-This project explores the evolution of sentiment in news headlines over time, utilising Python and Pandas for data manipulation, and Hugging Face Transformers models for sentiment analysis, emotion analysis, and keyword analysis.
+This project analyses the evolution of sentiment in news headlines over time, utilising Python and Pandas for data manipulation, and Hugging Face Transformers models for sentiment analysis, emotion analysis, and keyword analysis.
 
 ## Data Sources
 
